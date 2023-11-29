@@ -6,8 +6,8 @@ fn main() {
     book.description();
 
     //Immutable string
-    let string_literal = "Ciao!";
+    let _string_literal = "Ciao!";
     
     //Mutable string
-    let string = String::from("Ciao!");
+    let _string = String::from("Ciao!");
 }

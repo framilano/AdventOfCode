@@ -1,7 +1,8 @@
 {
     "rust-analyzer.linkedProjects": [
-        "./warmup0/Cargo.toml",
-        "./warmup1/Cargo.toml",
+        "./warmups/christmastree/Cargo.toml",
+        "./warmups/warmup0/Cargo.toml",
+        "./warmups/warmup1/Cargo.toml",
     ],
     "rust-analyzer.showUnlinkedFileNotification": true
 }
