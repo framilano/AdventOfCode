@@ -1,0 +1,7 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./warmup0/Cargo.toml",
+        "./warmup1/Cargo.toml",
+    ],
+    "rust-analyzer.showUnlinkedFileNotification": true
+}
