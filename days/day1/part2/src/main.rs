@@ -54,7 +54,7 @@ fn parse_numbers_with_memo(sentence: &[char], mut memo: Vec<String>) -> Vec<Stri
             }
         }
 
-        //After retrieving 
+        //After saving stuff in memo, we can continue removing a character from start
         return parse_numbers_with_memo(&sentence[1..], memo);
     }
 }
