@@ -3,6 +3,8 @@
         "./warmups/christmastree/Cargo.toml",
         "./warmups/warmup0/Cargo.toml",
         "./warmups/warmup1/Cargo.toml",
+        "./days/day1/part1/Cargo.toml",
+        "./days/day1/part2/Cargo.toml"
     ],
     "rust-analyzer.showUnlinkedFileNotification": true
 }
