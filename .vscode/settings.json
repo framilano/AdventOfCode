@@ -14,6 +14,8 @@
         "./2023/days/day1/part1/Cargo.toml",
         "./2023/days/day1/part2/Cargo.toml",
         "./2023/days/day1/part2variant/Cargo.toml",
+        "./2023/days/day2/part1/Cargo.toml",
+        "./2023/days/day2/part2/Cargo.toml"
     ],
     "rust-analyzer.showUnlinkedFileNotification": true
 }
