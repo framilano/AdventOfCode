@@ -14,7 +14,7 @@ impl PartialEq for Coordinate {
 
 fn main() {
     
-    let file = fs::read_to_string("../input").expect("Shoudl read file...");
+    let file = fs::read_to_string("../input").expect("Should read file...");
 
     let mut visited_houses_vec:Vec<Coordinate> = Vec::new();
     visited_houses_vec.push(Coordinate { x:0, y: 0 });
