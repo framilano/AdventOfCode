@@ -1,0 +1,15 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./warmups/christmastree/Cargo.toml",
+        "./warmups/warmup0/Cargo.toml",
+        "./warmups/warmup1/Cargo.toml",
+        "./days/day1/part1/Cargo.toml",
+        "./days/day1/part2/Cargo.toml",
+        "./days/day1/part2variant/Cargo.toml",
+        "./days/day2/part1/Cargo.toml",
+        "./days/day2/part2/Cargo.toml",
+        "./days/day3/part1/Cargo.toml",
+        "./days/day3/part2/Cargo.toml",
+    ],
+    "rust-analyzer.showUnlinkedFileNotification": true
+}
