@@ -1,8 +1,8 @@
-
 use std::{fs, collections::HashMap};
 
 struct CardWinning {
     wins: Vec<u32>,
+    left: u32
 }
 
 fn get_card_points(line: &str) -> u32 {
@@ -39,17 +39,11 @@ fn get_card_id(line: &str) -> u32 {
     return 0;
 }
 
-fn get_scratchcards_per_card(card_id: u32, cards_describer_map: &HashMap<u32, CardWinning>) -> u32{
-    if cards_describer_map.get(&(card_id as u32)).unwrap().wins.len() == 0 {
-        return 1;   //the card itself
-    } else {
-        let mut cards_counter = 1; //the card itself
-        for win_card_id in cards_describer_map.get(&(card_id as u32)).unwrap().wins.iter() {
-            cards_counter += get_scratchcards_per_card(*win_card_id, cards_describer_map);
-        }
-
-        return  cards_counter;
+fn are_no_cards_left(cards_describer_map: &mut HashMap<u32, CardWinning>) -> bool {
+    for (_k, v) in cards_describer_map.iter() {
+        if v.left != 0 {return false;}
     }
+    return true;
 }
 
 fn main() {
@@ -69,14 +63,25 @@ fn main() {
         for index in card_id+1..=card_id+wins_counter {
             wins.push(index);
         }
-        cards_describer_map.insert(card_id, CardWinning { wins: wins });
+        cards_describer_map.insert(card_id, CardWinning { wins: wins, left: 1 });
     }
 
-    let mut cards_counter:u32  = 0;
+    let mut cards_counter = arr.len();
     let original_number_of_cards = cards_describer_map.len();
-    
-    for card_id in 1..=original_number_of_cards {
-        cards_counter += get_scratchcards_per_card(card_id as u32, &cards_describer_map);
+    loop {
+        if are_no_cards_left(&mut cards_describer_map) {break;}
+        for index in 1..=original_number_of_cards {
+            if cards_describer_map.get_mut(&(index as u32)).unwrap().left == 0 {continue;}
+            cards_describer_map.get_mut(&(index as u32)).unwrap().left -= 1;
+            
+            let win_ids = cards_describer_map.get_mut(&(index as u32)).unwrap().wins.clone();
+
+            for card_id in win_ids {
+                cards_counter += 1;
+                cards_describer_map.get_mut(&(card_id as u32)).unwrap().left += 1;
+            }
+            
+        }
     }
 
     println!("Total Scratchcards: {}", cards_counter);
