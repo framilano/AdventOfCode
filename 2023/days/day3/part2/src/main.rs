@@ -143,6 +143,7 @@ fn create_input_matrix(width: usize, height: usize, input_arr: Vec<&str>) -> Vec
 
     return matrix;
 }
+
 fn main() {
     let file = fs::read_to_string("../input").expect("Should read file...");
     let mut arr: Vec<&str> = file.rsplit("\n").collect();
