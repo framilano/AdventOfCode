@@ -19,6 +19,8 @@
         "./days/day6/part2/Cargo.toml",
         "./days/day7/part1/Cargo.toml",
         "./days/day7/part2/Cargo.toml",
+        "./days/day8/part1/Cargo.toml",
+        "./days/day8/part2/Cargo.toml",
     ],
     "rust-analyzer.showUnlinkedFileNotification": true
 }
