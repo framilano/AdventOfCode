@@ -181,15 +181,14 @@ fn find_loop(pipes_matrix: &Vec<Vec<char>>, start_position: (usize, usize)) -> V
 fn rewrite_matrix(pipes_matrix: &mut Vec<Vec<char>>, loop_path: &Vec<(usize, usize)>) {
     for i in 0..pipes_matrix.len() {
         for j in 0..pipes_matrix[i].len() {
-            if loop_path.contains(&(i, j)) {
-                pipes_matrix[i][j] = 'X'
-            } else {
-                pipes_matrix[i][j] = '-'
-            }
+            if !loop_path.contains(&(i, j)) {
+                pipes_matrix[i][j] = '.'
+            } 
         }
     }
 }
 
+#[allow(dead_code)]
 fn print_matrix(pipes_matrix: &Vec<Vec<char>>) {
     for i in 0..pipes_matrix.len() {
         for j in 0..pipes_matrix[i].len() {
@@ -199,70 +198,19 @@ fn print_matrix(pipes_matrix: &Vec<Vec<char>>) {
     }
 }
 
-fn is_it_enclosed(row: usize, column: usize, pipes_matrix: &Vec<Vec<char>>) -> bool {
-    if row == 0 || column == 0 || row == pipes_matrix.len() - 1 || column == pipes_matrix[0].len() -1 {
-        return false;
-    } else {
-        let mut up = false;
-        let mut down = false;
-        let mut left = false;
-        let mut right = false;
-       
-        //checking row up
-        for index in 0..row {
-            if pipes_matrix[index][column] == 'X' {
-                up = true;
-                break;
-            }
+fn is_it_inside_the_polygon(row: usize, column: usize, pipes_matrix: &Vec<Vec<char>>) -> bool {
+    //Using raycasting algorithm to check if a point is inside a polygon
+    //count walls on the left of the inspected point and check if they're odd or even
+
+    let mut walls_counter = 0;
+
+    for i in 0..column {
+        if pipes_matrix[row][i] == '|' || pipes_matrix[row][i] == 'L' || pipes_matrix[row][i] == 'J' {
+            walls_counter += 1;
         }
-
-        //checking row down
-        for index in row+1..pipes_matrix.len() {
-            if pipes_matrix[index][column] == 'X' {
-                down = true;
-                break;
-            }
-        }
-
-        //checking column left
-        for index in 0..column {
-            if pipes_matrix[row][index] == 'X' {
-                left = true;
-                break;
-            }
-        }
-
-        //checking column right
-        for index in column+1..pipes_matrix[0].len() {
-            if pipes_matrix[row][index] == 'X' {
-                right = true;
-                break;
-            }
-        }
-
-        if up && down && left && right {return true}
-        else {return false}
-    }
-}
-
-fn is_it_adjacent_to_enclosed_parts(row: usize, column: usize, enclosed_parts: &Vec<(usize, usize)>) -> bool {
-    //check top
-    if enclosed_parts.contains(&(row-1, column)) {
-        return true;
     }
 
-    //check down
-    if enclosed_parts.contains(&(row+1, column)) {
-        return true;
-    }
-
-    //check left
-    if enclosed_parts.contains(&(row, column-1)) {
-        return true;
-    }
-
-    //check right
-    if enclosed_parts.contains(&(row, column+1)) {
+    if walls_counter % 2 != 0 {
         return true;
     }
 
@@ -270,15 +218,12 @@ fn is_it_adjacent_to_enclosed_parts(row: usize, column: usize, enclosed_parts: &
 }
 
 fn get_enclosed_tiles_number(pipes_matrix: &Vec<Vec<char>>, loop_path: &Vec<(usize, usize)>) -> u32{
-    let mut tiles_counter = 0;
-
     let mut enclosed_parts: Vec<(usize, usize)> = Vec::new();
 
     for i in 0..pipes_matrix.len() {
         for j in 0..pipes_matrix[i].len() {
             if !loop_path.contains(&(i, j)) {
-                if is_it_enclosed(i, j, pipes_matrix) {
-                    //if !is_it_adjacent_to_enclosed_parts(i, j, &enclosed_parts) {tiles_counter += 1}
+                if is_it_inside_the_polygon(i, j, pipes_matrix) {
                     enclosed_parts.push((i, j));
                 }
             }
@@ -298,9 +243,8 @@ fn main() {
 
     let loop_path: Vec<(usize, usize)> = find_loop(&pipes_matrix, start_position);
 
-    //Let's rewrite the matrix to contain only X when part of the loop path and - for the others
+    //Let's rewrite the matrix to contain only . for tiles outside the loop
     rewrite_matrix(&mut pipes_matrix, &loop_path);
-    print_matrix(&pipes_matrix);
 
     let enclosed_tiles_number: u32 = get_enclosed_tiles_number(&pipes_matrix, &loop_path);
 
