@@ -7,3 +7,8 @@ I'll try to solve them in Rust or Golang or C++, mainly Rust.
 
 ## Previous AoC
 I never partecipated during the past years, I'll probably post more of them with time too!
+
+## To Do
+
+- [ ] Rewrite 2023/day5 part2
+- [ ] Rewrite 2023/day10 part2
