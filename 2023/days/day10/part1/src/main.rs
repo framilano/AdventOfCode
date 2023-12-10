@@ -175,7 +175,6 @@ fn find_loop(pipes_matrix: &Vec<Vec<char>>, start_position: (usize, usize)) -> u
     return loop_path_counter;
 }
 
-
 fn main() {
     //Input parsing
     let arr: Vec<String> = get_input_arr();
