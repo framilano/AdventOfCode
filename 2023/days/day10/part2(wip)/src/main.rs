@@ -298,8 +298,6 @@ fn main() {
 
     let loop_path: Vec<(usize, usize)> = find_loop(&pipes_matrix, start_position);
 
-    //So, when a tile is enclosed inside the loop? When it has a part of the loop on both sides and both up and down
-
     //Let's rewrite the matrix to contain only X when part of the loop path and - for the others
     rewrite_matrix(&mut pipes_matrix, &loop_path);
     print_matrix(&pipes_matrix);
