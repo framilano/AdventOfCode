@@ -1,5 +1,7 @@
 use std::{fs, process::exit};
 
+//Exercise comments are in part2
+
 #[derive(Copy, Clone, Debug)]
 struct Node {
     row: i32,
@@ -20,26 +22,6 @@ fn get_input_arr() -> Vec<String> {
     return arr;
 }
 
-fn is_row_empty(line: &Vec<char>) -> bool {
-    for letter in line {
-        if *letter != '.' {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-fn is_column_empty(universe_matrix: &Vec<Vec<char>>, column: usize) -> bool {
-    for row in universe_matrix {
-        if row[column] != '.' {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 fn fill_matrix(arr_str: Vec<&str>) -> Vec<Vec<char>> {
     let mut universe_matrix: Vec<Vec<char>> = Vec::new();
 
@@ -53,31 +35,6 @@ fn fill_matrix(arr_str: Vec<&str>) -> Vec<Vec<char>> {
     }
 
     return universe_matrix;
-}
-
-fn expand_rows(universe_matrix: &mut Vec<Vec<char>>) {
-    let mut i = 0;
-    while i < universe_matrix.len() {
-        if is_row_empty(&universe_matrix[i]) {
-            let empty_row: Vec<char> = vec!['.'; universe_matrix[0].len()];
-            universe_matrix.insert(i, empty_row);
-            i+=1;
-        }
-        i+=1;
-    }
-}
-
-fn expand_columns(universe_matrix: &mut Vec<Vec<char>>) {
-    let mut i = 0;
-    while i < universe_matrix[0].len() {
-        if is_column_empty(&universe_matrix, i) {
-            for line in &mut *universe_matrix {
-                line.insert(i, '.');
-            }
-            i+=1;
-        }
-        i+=1;
-    }
 }
 
 #[allow(dead_code)]
@@ -125,21 +82,67 @@ fn get_couples(universe_matrix: &Vec<Vec<char>>) -> Vec<(Node, Node)> {
     return couples;
 }
 
-fn find_shortest_path(couple: (Node, Node)) -> i32 {
-    if couple.0.row == couple.1.row && couple.0.column == couple.1.column {
-        return 0;
+fn find_shortest_path(couple: (Node, Node), empty_rows: &Vec<i32>, empty_columns: &Vec<i32>) -> u64 {
+    let mut row_diff: u64 = (couple.1.row - couple.0.row).abs() as u64;
+    let mut column_diff: u64 = (couple.1.column - couple.0.column).abs() as u64;
+
+    //Adding how many empty rows there are
+    for row in empty_rows {
+        if *row > couple.0.row && *row < couple.1.row {
+            row_diff+=1;
+        }
     }
     
-    let row_dist = (couple.1.row - couple.0.row).abs();
-    let column_dist = (couple.1.column - couple.0.column).abs();
-    if couple.0.row == couple.1.row {
-        return column_dist;
-    }
-    if couple.0.column == couple.1.column {
-        return row_dist;
+    let mut left_column = couple.0.column;
+    let mut right_column = couple.1.column;
+    if left_column > right_column {
+        left_column = couple.1.column;
+        right_column = couple.0.column;
+
     }
 
-    return 1 + find_shortest_path((Node { row: couple.0.row+1, column: couple.0.column }, couple.1));
+    for column in empty_columns {
+        if *column > left_column && *column < right_column {
+            column_diff+=1;
+        }
+    }
+
+
+    return row_diff + column_diff;
+}
+
+fn get_empty_rows(universe_matrix: &Vec<Vec<char>>) -> Vec<i32> {
+    let mut empty_rows: Vec<i32> = Vec::new();
+    for index in 0..universe_matrix.len() {
+        let mut is_empty = true;
+        for jndex in 0..universe_matrix[index].len() {
+            if universe_matrix[index][jndex] != '.' {
+                is_empty = false;
+                break;
+            }
+        }
+        if is_empty {
+            empty_rows.push(index as i32);
+        }
+    }
+    return empty_rows;
+}
+
+fn get_empty_columns(universe_matrix: &Vec<Vec<char>>) -> Vec<i32> {
+    let mut empty_columns: Vec<i32> = Vec::new();
+    for jndex in 0..universe_matrix[0].len() {
+        let mut is_empty = true;
+        for index in 0..universe_matrix.len() {
+            if universe_matrix[index][jndex] != '.' {
+                is_empty = false;
+                break;
+            }
+        }
+        if is_empty {
+            empty_columns.push(jndex as i32);
+        }
+    }
+    return empty_columns;
 }
 
 fn main() {
@@ -148,8 +151,6 @@ fn main() {
     let arr_str: Vec<&str> = arr.iter().map(|x| x.as_str()).collect();
 
     let mut universe_matrix: Vec<Vec<char>> = fill_matrix(arr_str);
-    expand_rows(&mut universe_matrix);
-    expand_columns(&mut universe_matrix);
 
     add_numbers(&mut universe_matrix);
     
@@ -157,11 +158,14 @@ fn main() {
     //println!("{:?}", couples);
     //print_matrix(&universe_matrix);
     
+    let empty_rows = get_empty_rows(&universe_matrix);
+    let empty_columns = get_empty_columns(&universe_matrix);
 
-    let mut sum: i32 = 0;
+
+    let mut sum: u64 = 0;
     for couple in couples {
-        sum += find_shortest_path(couple);
+        sum += find_shortest_path(couple, &empty_rows, &empty_columns);
     }
 
-    println!("Sum: {}", sum);
+    println!("Sum of paths: {}", sum);
 }
