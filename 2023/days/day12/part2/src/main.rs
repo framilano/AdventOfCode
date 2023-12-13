@@ -21,22 +21,23 @@ fn get_touple(line: &str) -> (String, Vec<u32>) {
     return (line_split[0].chars().collect(), numbers)
 }
 
-fn get_multiplied_touple<'a>(touple: &'a (String, Vec<u32>)) -> (String, Vec<u32>) {
-    let mut new_descriptor: String = String::new();
-    let mut new_number_vec: Vec<u32> = Vec::new();
+fn divide_touples<'a>(touple: &'a (String, Vec<u32>)) -> Vec<(String, Vec<u32>)> {
+    let mut first_piece = touple.0.clone();
+    first_piece.push('?');
+    first_piece.push_str(touple.0.as_str());
+    first_piece.push('?');
 
-    for i in 0..5 {
-        if i != 4 {
-            new_descriptor.push_str(touple.0.as_str());
-            new_descriptor.push_str("?");
-        } else {
-            new_descriptor.push_str(touple.0.as_str());
-        }
+    let mut second_piece = touple.0.clone();
+    second_piece.push('?');
 
-        new_number_vec.extend(touple.1.clone());
-    }
+    let mut new_touples: Vec<(String, Vec<u32>)> = Vec::new();
 
-    return (new_descriptor, new_number_vec);
+    let mut numbers_for_first = touple.1.clone();
+    numbers_for_first.extend(&touple.1);
+    new_touples.push((first_piece, numbers_for_first));
+    new_touples.push((second_piece,touple.1.clone()));
+
+    return new_touples;
 }
 
 fn is_it_an_arrangement(arrangement: &String, number_vec: &Vec<u32>) -> bool {
@@ -101,9 +102,14 @@ fn get_arrangements_counter(line_info: &String, numbers: &Vec<u32>) -> u32 {
 fn get_arrangements(line: &str) -> u32 {
     println!("{}", line);
     let old_touple: (String, Vec<u32>) = get_touple(line);
-    let touple: (String, Vec<u32>) = get_multiplied_touple(&old_touple); 
+    let touples: Vec<(String, Vec<u32>)> = divide_touples(&old_touple); 
 
-    let arrangement_counter = get_arrangements_counter(&touple.0, &touple.1);
+    
+    let mut arrangement_counter = get_arrangements_counter(&touples[0].0, &touples[0].1);
+
+    for touple in touples {
+        arrangement_counter *= get_arrangements_counter(&touple.0, &touple.1);
+    }
 
     println!("Counter = {}", arrangement_counter);
     return arrangement_counter;

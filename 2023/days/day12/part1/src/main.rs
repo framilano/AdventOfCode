@@ -68,9 +68,10 @@ fn get_arrangements_counter(line_info: &String, numbers: &Vec<u8>) -> u32 {
 
 fn get_arrangements(line: &str) -> u32 {
     let touple = get_touple(line);
-
+    println!("\n{}", touple.0);
     let arrangement_counter = get_arrangements_counter(&touple.0, &touple.1);
 
+    println!("Counter = {}", arrangement_counter);
     return arrangement_counter;
 }
 
