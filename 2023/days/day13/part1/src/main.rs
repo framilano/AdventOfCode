@@ -14,10 +14,15 @@ fn get_input_arr() -> Vec<String> {
     return arr;
 }
 
+fn get_blocks(arr_str) -> Vec<Vec&str>> {
+    let blocks: Vec<Vec&str>> 
+}
+
 fn main() {
     //Input parsing
     let arr: Vec<String> = get_input_arr();
     let arr_str: Vec<&str> = arr.iter().map(|x| x.as_str()).collect();
 
+    let blocks: = get_blocks(&arr_str);
     
 }
