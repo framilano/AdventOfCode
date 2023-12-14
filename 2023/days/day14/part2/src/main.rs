@@ -112,8 +112,7 @@ fn get_total_load(matrix: &mut Vec<Vec<char>>) -> usize {
     return total_load;
 }
 
-
-fn detect_loop(load_cache: &Vec<usize>) -> Option<(usize, usize)> {
+fn detect_loop(load_cache: &Vec<usize>) -> Option<(i32, i32)> {
     for index in 0..load_cache.len() {
         for jndex in index+1..load_cache.len() {
             if load_cache[index] == load_cache[jndex] {
@@ -130,7 +129,7 @@ fn detect_loop(load_cache: &Vec<usize>) -> Option<(usize, usize)> {
                 }
 
                 if !failed && offset > 2 {
-                    return Some((index, jndex));
+                    return Some((index as i32, jndex as i32));
                 }
             }
         }
@@ -140,8 +139,6 @@ fn detect_loop(load_cache: &Vec<usize>) -> Option<(usize, usize)> {
 }
 
 fn get_total_load_on_north(matrix: &mut Vec<Vec<char>>) -> usize {
-    let mut cycles = 0;
-    let mut total_load = 0;
     let mut load_cache: Vec<usize> = Vec::new();
     
     loop {
@@ -150,23 +147,27 @@ fn get_total_load_on_north(matrix: &mut Vec<Vec<char>>) -> usize {
         tilt_south(matrix);
         tilt_east(matrix);
 
-        total_load = get_total_load(matrix);
-        load_cache.push(total_load);
+        load_cache.push(get_total_load(matrix));
         
-        let loop_indexes: Option<(usize, usize)> = detect_loop(&load_cache);
+        //return loop indexes (included, not included)
+        let loop_indexes: Option<(i32, i32)> = detect_loop(&load_cache);
         if loop_indexes.is_some() {
-            println!("LOOP STARTS AT CYCLE {}: ", loop_indexes.unwrap().0);
-            for i in loop_indexes.unwrap().0..loop_indexes.unwrap().1 {
-                print!("{} ", load_cache[i]);
+            //Loop found, we now have its indexes and its length
+
+            let loop_length = loop_indexes.unwrap().1 - loop_indexes.unwrap().0;
+
+            let distance_from_solution = 999999999 - (((999999999 / loop_length) * loop_length) + loop_indexes.unwrap().0);
+
+            let loop_solution_index = distance_from_solution % loop_length;
+
+            let mut positive_index = loop_indexes.unwrap().0 + loop_solution_index;
+            if loop_solution_index < 0 {
+                positive_index = loop_indexes.unwrap().0 + loop_solution_index + loop_length;
             }
-            println!("\n");
-
-            println!("LOADCACHE: {:?}", load_cache);
+            
+            return load_cache[positive_index as usize];
         }
-
-        cycles += 1;
     }
-    return total_load;
 }
 
 #[allow(dead_code)]
@@ -191,6 +192,6 @@ fn main() {
 
     //print_matrix(&matrix);
 
-    println!("Total load on north: {}", total_load_on_north);
+    println!("Total load on north after 1000000000 cycles: {}", total_load_on_north);
 
 }
