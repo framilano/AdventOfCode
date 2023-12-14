@@ -166,8 +166,8 @@ fn get_reflections(block: &Vec<Vec<char>>) -> u32 {
  * In part2 we simply allow one error to exist.
  * So if at start we have no differences between the two starting lines that are one near the other
  * We can allow one difference between all lines compared between each other
- * If the starting lines already have a single error, then while comparing the other lines between each other
- * we can't allow any error!
+ * If the starting lines already has a single error, then while comparing the other lines between each other
+ * we can't allow any more errors!
  * 
  * Same exact reasoning for columns
  * So inside both get_row_reflections and get_column_reflections we check these two cases:
