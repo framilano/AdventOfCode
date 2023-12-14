@@ -13,3 +13,4 @@ I never partecipated during the past years, I'll probably post more of them with
 - [ ] Rewrite 2023/day5 part2
 - [ ] Rewrite 2023/day10 part2
 - [ ] Solve 2023/day12 part2
+- [ ] Write a better loop detection algorithm for 2023/day14 part2
