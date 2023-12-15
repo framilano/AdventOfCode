@@ -35,32 +35,24 @@ fn get_hash(word: &str) -> u32 {
 }
 
 fn remove_entry(lens_vector: &mut Vec<Lens>, original_word: &str) {
-    let mut removed_index = 0;
-    let mut found = false;
     for index in 0..lens_vector.len() {
         if lens_vector[index].label == original_word {
-            found = true;
-            removed_index = index;
-            break;
+            lens_vector.remove(index);
+            return;
         }
     }
-    if found {
-        lens_vector.remove(removed_index);
-    }
+
 }
 
 fn add_lens(lens_vector: &mut Vec<Lens>, original_word: &str, lens_power: u32) {
-    let mut found = false;
     for lens in &mut *lens_vector {
         if lens.label == original_word {
             lens.lens_focusing_power = lens_power;
-            found = true;
+            return
         }
     }
 
-    if !found {
-        lens_vector.push(Lens { label: String::from(original_word), lens_focusing_power: lens_power })
-    }
+    lens_vector.push(Lens { label: String::from(original_word), lens_focusing_power: lens_power })
 }
 
 fn fill_boxes(word: &str, boxes: &mut HashMap<u32, Vec<Lens>>) {
@@ -102,7 +94,6 @@ fn main() {
     input_vector.iter_mut().for_each(|x| *x = x.trim());
 
     let mut boxes: HashMap<u32, Vec<Lens>> = HashMap::new();
-
 
     for word in input_vector {
         fill_boxes(word, &mut boxes);
