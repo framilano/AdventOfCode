@@ -129,7 +129,6 @@ fn get_energized_total(matrix: &Vec<Vec<char>>, coming_from: char, current_row: 
 
 }
 
-
 fn main() {
     //Input parsing
     let arr: Vec<String> = get_input_arr();
