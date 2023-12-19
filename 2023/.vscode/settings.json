@@ -43,6 +43,18 @@
         "./days/day18/part2/Cargo.toml",
         "./days/day19/part1/Cargo.toml",
         "./days/day19/part2/Cargo.toml",
+        "./days/day20/part1/Cargo.toml",
+        "./days/day20/part2/Cargo.toml",
+        "./days/day21/part1/Cargo.toml",
+        "./days/day21/part2/Cargo.toml",
+        "./days/day22/part1/Cargo.toml",
+        "./days/day22/part2/Cargo.toml",
+        "./days/day23/part1/Cargo.toml",
+        "./days/day23/part2/Cargo.toml",
+        "./days/day24/part1/Cargo.toml",
+        "./days/day24/part2/Cargo.toml",
+        "./days/day25/part1/Cargo.toml",
+        "./days/day25/part2/Cargo.toml",
     ],
     "rust-analyzer.showUnlinkedFileNotification": false
 }
