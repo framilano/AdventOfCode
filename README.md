@@ -8,7 +8,13 @@ I'll try to solve them in Rust or Golang or C++, mainly Rust.
 ## Previous AoC
 I never partecipated during the past years, I'll probably post more of them with time too!
 
-## To Do (with priority)
+## To Do (priority order)
+- [ ] Solve 2023/day20
+- [ ] Solve 2023/day21
+- [ ] Solve 2023/day22
+- [ ] Solve 2023/day23
+- [ ] Solve 2023/day24
+- [ ] Solve 2023/day25
 - [ ] Solve 2023/day19 part2
 - [x] Solve 2023/day18 part2
 - [ ] Solve 2023/day17
