@@ -1,5 +1,6 @@
 {
     "rust-analyzer.linkedProjects": [
+        /**
         "./warmups/christmastree/Cargo.toml",
         "./warmups/warmup0/Cargo.toml",
         "./warmups/warmup1/Cargo.toml",
@@ -43,6 +44,7 @@
         "./days/day18/part2/Cargo.toml",
         "./days/day19/part1/Cargo.toml",
         "./days/day19/part2/Cargo.toml",
+        */
         "./days/day20/part1/Cargo.toml",
         "./days/day20/part2/Cargo.toml",
         "./days/day21/part1/Cargo.toml",
