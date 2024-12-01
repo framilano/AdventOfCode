@@ -1,1 +1,1 @@
-cls && kotlinc ./%1/%1.kt -include-runtime -d %1/%1.jar && java -jar %1/%1.jar < %1/input.txt
+cls && kotlinc ./%1/%2.kt -include-runtime -d %1/%2.jar && java -jar %1/%2.jar < %1/input.txt
